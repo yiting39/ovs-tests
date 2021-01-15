@@ -32,16 +32,20 @@ function test_config_ovs_bond_port_order() {
     title "Test config ovs bond port order"
     reset_tc bond0 $NIC $NIC2
     start_clean_openvswitch
+    echo "add br-ovs"
     ovs-vsctl add-br br-ovs
+    ovs-vsctl show
 
     # bond port is second to reproduce an issue ovs didn't
     # add ingress block so dont put it first.
+    ovs-vsctl set Open_vSwitch . other_config:hw-offload=true
     ovs-vsctl add-port br-ovs $REP
     ovs-vsctl add-port br-ovs bond0
-
+    ovs-vsctl show
     wa_for_port2_missing_ingress_block
 
     verify_ingress_block
+    ovs-vsctl show
     del_all_bridges
 }
 

@@ -604,7 +604,8 @@ function get_reps() {
 function __get_reps() {
     local nic=$1
     # XXX: we might miss reps if not using the udev rule
-    ls -1 /sys/class/net/ | grep ${nic}_[0-9]
+    #ls -1 /sys/class/net/ | grep ${nic}_[0-9]
+    ls -1 /sys/class/net/ | grep eth
 }
 
 function bring_up_reps() {
@@ -613,7 +614,8 @@ function bring_up_reps() {
 
     # XXX: we might miss reps if not using the udev rule
     ifs=`__get_reps $nic`
-
+    #ifs=`get_reps $nic`
+    echo "ifs is" $ifs
     if [ -z "$ifs" ]; then
         warn "bring_up_reps: didn't find reps for $nic"
         return
@@ -638,6 +640,7 @@ function get_vfs_count() {
 function get_reps_count() {
     local nic=$1
     __get_reps $nic | wc -l
+    #get_reps $nic | wc -l
 }
 
 function wait_for_reps() {
