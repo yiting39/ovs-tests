@@ -1423,7 +1423,7 @@ function test_done() {
     set +e
     reload_driver_per_test && reload_modules
     kmemleak_scan_per_test && kmemleak_scan
-    check_for_errors_log
+    #check_for_errors_log
     if [ $TEST_FAILED == 0 ]; then
         success "TEST PASSED"
     else
